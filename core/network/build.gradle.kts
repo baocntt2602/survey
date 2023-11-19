@@ -35,6 +35,11 @@ dependencies {
   implementation(libs.datastore.preferences)
   implementation(libs.security.crypto)
 
+  implementation(libs.jackson.core)
+  implementation(libs.jackson.kotlin)
+  implementation(libs.retrofit.converter.jackson)
+  implementation(libs.arrow.core)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)
   androidTestImplementation(libs.espresso.core)

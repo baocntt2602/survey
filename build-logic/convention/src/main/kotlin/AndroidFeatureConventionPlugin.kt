@@ -34,6 +34,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         add("implementation", libs.findLibrary("lifecycle.runtime.compose").get())
         add("implementation", libs.findLibrary("lifecycle.viewmodel.compose").get())
         add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+        add("implementation", libs.findLibrary("arrow.core").get())
       }
     }
   }

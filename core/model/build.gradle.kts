@@ -22,4 +22,7 @@ dependencies {
   implementation(libs.appcompat)
   implementation(libs.kotlinx.serialization.json)
   implementation(libs.kotlinx.datetime)
+
+  implementation(libs.jackson.core)
+  implementation(libs.jackson.kotlin)
 }

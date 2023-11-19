@@ -1,0 +1,17 @@
+package com.nimble.sample.di
+
+import com.nimble.sample.repository.DefaultUserRepository
+import com.nimble.sample.repository.UserRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface DataModule {
+  @Binds
+  @Singleton
+  fun bindsUserRepository(userRepository: DefaultUserRepository): UserRepository
+}
