@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.navigation.navigateToHome
 import com.example.navigation.surveyNavigation
 import com.example.onboard.navigation.onboardingGraph
 
@@ -43,7 +44,9 @@ fun SurveyNavHost(
       navController = navController,
       startDestination = startDestination
     ) {
-      onboardingGraph()
+      onboardingGraph(
+        onLoginSuccessfully = navController::navigateToHome
+      )
       surveyNavigation()
     }
   }

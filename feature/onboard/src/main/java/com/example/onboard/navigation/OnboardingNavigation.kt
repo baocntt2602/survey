@@ -7,13 +7,18 @@ import com.nimble.ui.util.animatedComposable
 
 const val ONBOARDING_GRAPH_ROUTE_PATTERN = "onboarding_graph"
 const val loginRoute = "login_route"
-fun NavGraphBuilder.onboardingGraph() {
+
+fun NavGraphBuilder.onboardingGraph(
+  onLoginSuccessfully: () -> Unit
+) {
   navigation(
     route = ONBOARDING_GRAPH_ROUTE_PATTERN,
     startDestination = loginRoute
   ) {
     animatedComposable(route = loginRoute) {
-      LoginRoute()
+      LoginRoute(
+        onLoginSuccessfully = onLoginSuccessfully
+      )
     }
   }
 }

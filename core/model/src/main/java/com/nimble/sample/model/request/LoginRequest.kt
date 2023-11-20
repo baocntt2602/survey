@@ -5,7 +5,7 @@ import com.nimble.sample.model.GrantTypes
 
 data class LoginRequest(
   @JsonProperty("grant_type")
-  val grantType: GrantTypes = GrantTypes.PASSWORD,
+  val grantType: String = GrantTypes.PASSWORD.name.lowercase(),
   val email: String,
   val password: String,
   @JsonProperty("client_id")

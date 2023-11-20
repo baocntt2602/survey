@@ -10,6 +10,8 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
+private const val TRANSITION_ANIMATION_DURATION = 300
+
 fun NavGraphBuilder.animatedComposable(
   route: String,
   arguments: List<NamedNavArgument> = emptyList(),
@@ -47,5 +49,3 @@ fun NavGraphBuilder.animatedComposable(
     }
   )
 }
-
-private const val TRANSITION_ANIMATION_DURATION = 300
