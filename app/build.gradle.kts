@@ -42,6 +42,9 @@ android {
 
 dependencies {
 
+  implementation(project(":feature:onboard"))
+  implementation(project(":feature:survey"))
+
   api(project(":core:model"))
   api(project(":core:network"))
   api(project(":core:ui"))
@@ -69,6 +72,9 @@ dependencies {
   implementation(libs.lifecycle.viewmodel.compose)
   implementation(libs.lifecycle.runtime.ktx)
   implementation(libs.lifecycle.runtime.compose)
+  implementation(libs.androidx.hilt.navigation.compose)
+  implementation(libs.navigation)
+  implementation(libs.androidx.core.splashscreen)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)
