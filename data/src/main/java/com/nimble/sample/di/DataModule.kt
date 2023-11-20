@@ -1,6 +1,8 @@
 package com.nimble.sample.di
 
+import com.nimble.sample.repository.DefaultPreferenceRepository
 import com.nimble.sample.repository.DefaultUserRepository
+import com.nimble.sample.repository.PreferenceRepository
 import com.nimble.sample.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -14,4 +16,8 @@ interface DataModule {
   @Binds
   @Singleton
   fun bindsUserRepository(userRepository: DefaultUserRepository): UserRepository
+
+  @Binds
+  @Singleton
+  fun bindPreferenceRepository(preferenceRepository: DefaultPreferenceRepository): PreferenceRepository
 }

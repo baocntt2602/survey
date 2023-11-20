@@ -1,6 +1,7 @@
 plugins {
   id("nimble.android.library")
   id("nimble.android.hilt")
+  id("nimble.android.library.compose")
 }
 
 android {
@@ -21,6 +22,7 @@ dependencies {
   implementation(platform(libs.compose.bom))
   implementation(libs.core.ktx)
   implementation(libs.appcompat)
+  implementation(libs.navigation)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)

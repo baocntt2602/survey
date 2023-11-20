@@ -6,9 +6,9 @@ junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 lifecycle = "2.6.1"
-activity-compose = "1.7.2"
+activity-compose = "1.8.0-alpha06"
 compose-bom = "2023.06.01"
-nav = "2.6.0"
+nav = "2.7.5"
 hilt = "2.47"
 kotlin = "1.9.0"
 kotlinxCoroutines = "1.7.1"
@@ -30,6 +30,7 @@ secrets = "2.0.1"
 androidxHiltNavigationCompose = "1.1.0"
 jackson = "2.12.4"
 arrow = "0.13.2"
+androidxCoreSplashscreen = "1.0.1"
 
 [libraries]
 androidx-acitivty-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
@@ -74,6 +75,7 @@ jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-datab
 jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jackson" }
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
 retrofit-converter-jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref = "retrofit" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
