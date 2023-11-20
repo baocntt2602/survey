@@ -22,12 +22,12 @@ enum class AppFlavor(
   dev(
     FlavorDimension.contentType,
     applicationIdSuffix = ".dev",
-    "\"https://survey-api.nimblehq.co/api/v1\""
+    "\"https://survey-api.nimblehq.co/api/v1/\""
   ),
   prod(
     FlavorDimension.contentType,
     null,
-    "\"https://survey-api.nimblehq.co/api/v1\""
+    "\"https://survey-api.nimblehq.co/api/v1/\""
   )
 }
 

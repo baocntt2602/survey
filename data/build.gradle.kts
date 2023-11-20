@@ -19,6 +19,7 @@ android {
 dependencies {
   api(project(":core:model"))
   api(project(":core:utils"))
+  api(project(":core:network"))
 
   implementation(libs.kotlinx.coroutines.core)
   implementation(libs.kotlinx.coroutines.android)
@@ -32,6 +33,7 @@ dependencies {
   implementation(libs.retrofit.kotlin.serialization)
   implementation(libs.datastore.preferences)
   implementation(libs.security.crypto)
+  implementation(libs.arrow.core)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)
