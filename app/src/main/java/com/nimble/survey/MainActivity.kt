@@ -20,7 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.navigation.SURVEY_GRAPH_ROUTE_PATTERN
 import com.example.onboard.navigation.ONBOARDING_GRAPH_ROUTE_PATTERN
 import com.nimble.survey.ui.SurveyNavHost
-import com.nimble.survey.ui.theme.SurveyAppTheme
+import com.nimble.ui.theme.SurveyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

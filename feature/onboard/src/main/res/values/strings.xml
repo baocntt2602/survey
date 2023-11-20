@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="password">Password</string>
+  <string name="forgot">Forgot?</string>
+  <string name="email">Email</string>
+  <string name="log_in">Log in</string>
+  <string name="error_email_invalid">Invalid email pattern</string>
+  <string name="error_password_empty">Password should not empty</string>
+</resources>
