@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nimble.sample.core.network.BuildConfig
+import com.nimble.sample.network.api.SurveyApi
 import com.nimble.sample.network.api.UserApi
 import com.nimble.sample.network.api.middleware.DefaultInterceptor
 import com.nimble.sample.network.data.DefaultTokenStorage
@@ -52,13 +53,15 @@ object NetworkModule {
 
   @Provides
   fun provideOktHttpClient(
-    cache: Cache
+    cache: Cache,
+    defaultInterceptor: DefaultInterceptor
   ): OkHttpClient {
     val httpClientBuilder = OkHttpClient.Builder()
       .cache(cache)
       .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
       .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
       .hostnameVerifier { _, _ -> true }
+      .addInterceptor(defaultInterceptor)
     if (BuildConfig.DEBUG) {
       val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -84,4 +87,7 @@ object NetworkModule {
 
   @Provides
   fun provideUserApi(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
+
+  @Provides
+  fun provideSurveyApi(retrofit: Retrofit): SurveyApi = retrofit.create(SurveyApi::class.java)
 }

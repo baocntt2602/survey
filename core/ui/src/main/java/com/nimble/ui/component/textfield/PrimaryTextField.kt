@@ -19,7 +19,6 @@ fun PrimaryTextField(
     TextFieldState()
   },
   label: String,
-  hideLabelOnFocused: Boolean = state.hideLabelOnFocused,
   visualTransformation: VisualTransformation = VisualTransformation.None,
   trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -28,12 +27,8 @@ fun PrimaryTextField(
     onValueChange = {
       state.text = it
     },
-    label = {
-      if (hideLabelOnFocused) {
-        Text(text = "")
-      } else {
-        Text(text = label)
-      }
+    placeholder = {
+      Text(text = label)
     },
     modifier = modifier
       .fillMaxWidth()

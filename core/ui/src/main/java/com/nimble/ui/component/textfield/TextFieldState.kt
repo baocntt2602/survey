@@ -20,9 +20,6 @@ open class TextFieldState(
   private var isFocusedDirty: Boolean = false
   private var displayErrors: Boolean by mutableStateOf(false)
 
-  val hideLabelOnFocused: Boolean
-    get() = isFocused || text.isNotEmpty()
-
   open val isValid: Boolean
     get() = validator(text)
 
