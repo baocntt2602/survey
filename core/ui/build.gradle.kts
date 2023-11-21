@@ -38,4 +38,6 @@ dependencies {
   api(libs.ui.tooling.preview)
   api(libs.ui.tooling)
   api(libs.activity.compose)
+  api(libs.constraint.layout)
+  api(libs.coil.compose)
 }

@@ -31,6 +31,8 @@ androidxHiltNavigationCompose = "1.1.0"
 jackson = "2.12.4"
 arrow = "0.13.2"
 androidxCoreSplashscreen = "1.0.1"
+constraintLayout = "1.0.1"
+coilCompose = "2.4.0"
 
 [libraries]
 androidx-acitivty-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
@@ -76,6 +78,8 @@ jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-modul
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
 retrofit-converter-jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref = "retrofit" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
