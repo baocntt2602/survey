@@ -7,6 +7,7 @@ import com.nimble.sample.core.network.BuildConfig
 import com.nimble.sample.network.api.SurveyApi
 import com.nimble.sample.network.api.UserApi
 import com.nimble.sample.network.api.middleware.DefaultInterceptor
+import com.nimble.sample.network.api.middleware.TokenAuthenticator
 import com.nimble.sample.network.data.DefaultTokenStorage
 import com.nimble.sample.network.data.TokenStorage
 import com.nimble.sample.network.either.EitherCallAdapterFactory
@@ -54,7 +55,8 @@ object NetworkModule {
   @Provides
   fun provideOktHttpClient(
     cache: Cache,
-    defaultInterceptor: DefaultInterceptor
+    defaultInterceptor: DefaultInterceptor,
+    tokenAuthenticator: TokenAuthenticator
   ): OkHttpClient {
     val httpClientBuilder = OkHttpClient.Builder()
       .cache(cache)
@@ -62,6 +64,7 @@ object NetworkModule {
       .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
       .hostnameVerifier { _, _ -> true }
       .addInterceptor(defaultInterceptor)
+      .authenticator(tokenAuthenticator)
     if (BuildConfig.DEBUG) {
       val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

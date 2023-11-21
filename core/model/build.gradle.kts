@@ -1,6 +1,7 @@
 plugins {
   id("nimble.android.library")
   id("nimble.android.hilt")
+  id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -15,6 +16,10 @@ android {
     consumerProguardFiles("consumer-rules.pro")
   }
 
+}
+
+secrets {
+  defaultPropertiesFileName = "secrets.defaults.properties"
 }
 
 dependencies {
