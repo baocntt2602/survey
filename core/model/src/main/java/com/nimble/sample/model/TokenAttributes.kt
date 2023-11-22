@@ -14,3 +14,7 @@ data class TokenAttributes(
   @JsonProperty("created_at")
   val createdAt: Long
 )
+
+val TokenAttributes.toUserToken: UserToken
+  get() = UserToken(accessToken, refreshToken)
+

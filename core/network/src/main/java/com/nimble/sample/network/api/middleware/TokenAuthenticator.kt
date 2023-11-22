@@ -1,8 +1,11 @@
 package com.nimble.sample.network.api.middleware
 
+import com.nimble.sample.model.UserToken
 import com.nimble.sample.model.request.RefreshTokenRequest
+import com.nimble.sample.model.toUserToken
 import com.nimble.sample.network.api.UserApi
-import com.nimble.sample.network.data.TokenStorage
+import com.nimble.sample.network.data.UserTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -12,19 +15,23 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class TokenAuthenticator @Inject constructor(
-  private val tokenStorage: TokenStorage,
+  private val userTokenDataStore: UserTokenDataStore,
   private val userApi: Provider<UserApi>
 ) : Authenticator {
   override fun authenticate(route: Route?, response: Response): Request? {
     return runBlocking {
-      val refreshToken = tokenStorage.refreshToken
+      val refreshToken = userTokenDataStore.userToken.first().refreshToken
       val result = userApi.get().refreshToken(RefreshTokenRequest(refreshToken = refreshToken.orEmpty()))
-      result.fold({
-        null
-      }, {
-        tokenStorage.accessToken = it.data?.attributes?.accessToken
-        newRequestWithAccessToken(response.request, it.data?.attributes?.accessToken.orEmpty())
-      })
+      result.fold(
+        {
+          userTokenDataStore.saveTokens(UserToken())
+          null
+        }, {
+          it.data?.attributes?.let { attr ->
+            userTokenDataStore.saveTokens(attr.toUserToken)
+          }
+          newRequestWithAccessToken(response.request, it.data?.attributes?.accessToken.orEmpty())
+        })
     }
   }
 

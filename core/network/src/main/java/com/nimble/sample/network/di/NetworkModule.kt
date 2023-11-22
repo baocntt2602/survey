@@ -8,8 +8,8 @@ import com.nimble.sample.network.api.SurveyApi
 import com.nimble.sample.network.api.UserApi
 import com.nimble.sample.network.api.middleware.DefaultInterceptor
 import com.nimble.sample.network.api.middleware.TokenAuthenticator
-import com.nimble.sample.network.data.DefaultTokenStorage
-import com.nimble.sample.network.data.TokenStorage
+import com.nimble.sample.network.data.DefaultUserTokenDataStore
+import com.nimble.sample.network.data.UserTokenDataStore
 import com.nimble.sample.network.either.EitherCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -34,15 +34,15 @@ object NetworkModule {
 
   @Singleton
   @Provides
-  fun provideTokenStorage(
+  fun provideUserTokenDataStore(
     @ApplicationContext context: Context,
-  ): TokenStorage {
-    return DefaultTokenStorage.create(context)
+  ): UserTokenDataStore {
+    return DefaultUserTokenDataStore(context)
   }
 
   @Singleton
   @Provides
-  fun provideHeaderInterceptor(tokenStorage: TokenStorage): DefaultInterceptor = DefaultInterceptor(tokenStorage)
+  fun provideHeaderInterceptor(userTokenDataStore: UserTokenDataStore): DefaultInterceptor = DefaultInterceptor(userTokenDataStore)
 
   @Provides
   @Singleton
