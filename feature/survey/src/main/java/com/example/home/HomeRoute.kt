@@ -129,7 +129,7 @@ fun HomeScreen(
           .shimmerBrush(showShimmer)
           .constrainAs(datePassed) {
             start.linkTo(date.start)
-            top.linkTo(date.bottom)
+            top.linkTo(date.bottom, 5.dp)
           }
       )
 
@@ -154,7 +154,7 @@ fun HomeScreen(
           .shimmerBrush(showShimmer)
           .constrainAs(surveyTitle) {
             start.linkTo(surveyDescription.start)
-            bottom.linkTo(surveyDescription.top)
+            bottom.linkTo(surveyDescription.top, 5.dp)
             end.linkTo(doSurveyBtn.start, 20.dp)
             width = Dimension.fillToConstraints
           }
