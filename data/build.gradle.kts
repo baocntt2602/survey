@@ -20,6 +20,7 @@ dependencies {
   api(project(":core:model"))
   api(project(":core:utils"))
   api(project(":core:network"))
+  testImplementation(project(":core:testing"))
 
   implementation(libs.kotlinx.coroutines.core)
   implementation(libs.kotlinx.coroutines.android)
