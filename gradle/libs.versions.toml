@@ -33,6 +33,10 @@ arrow = "0.13.2"
 androidxCoreSplashscreen = "1.0.1"
 constraintLayout = "1.0.1"
 coilCompose = "2.4.0"
+junit4 = "4.13.2"
+androidxTestRules = "1.5.0"
+androidxTestRunner = "1.5.1"
+mockk="1.12.4"
 
 [libraries]
 androidx-acitivty-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
@@ -80,6 +84,10 @@ retrofit-converter-jackson = { group = "com.squareup.retrofit2", name = "convert
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
