@@ -1,24 +1,21 @@
 package com.example.home
 
-import arrow.core.Either
+import com.example.testdouble.TestSurveyRepository
 import com.example.testing.MainDispatcherRule
-import com.example.testing.repository.TestSurveyRepository
-import com.nimble.sample.model.ResponseWrapper
-import com.nimble.sample.network.either.ErrorResponse
-import io.mockk.mockk
+import io.mockk.coVerify
+import io.mockk.spyk
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class HomeViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
-
 
   private lateinit var viewModel: HomeViewModel
   private val surveyRepository = TestSurveyRepository()
@@ -29,31 +26,45 @@ class HomeViewModelTest {
   }
 
   @Test
-  fun `test init state`() = runTest {
-    Assert.assertEquals(HomeUiState.Loading, viewModel.uiState.value)
+  fun `test init ui state`() = runTest {
+    assertEquals(HomeUiState.Loading, viewModel.uiState.value)
   }
 
   @Test
-  fun `test get surveys success`() = runTest {
+  fun `test init survey state`() = runTest {
+    assertEquals(true, viewModel.survey.value.isEmpty())
+  }
+
+  @Test
+  fun `test get cache survey - valid case`() = runTest {
     val collectJob = launch(UnconfinedTestDispatcher()) {
+      viewModel.survey.collect()
       viewModel.uiState.collect()
     }
 
-    surveyRepository.sendSurvey(Either.Right(ResponseWrapper(listOf(mockk()))))
+    surveyRepository.sendSurveyEntity(defaultEntities)
 
-    Assert.assertEquals(true, viewModel.uiState.value is HomeUiState.SurveyLoaded)
+    assertEquals(HomeUiState.SurveyLoaded,viewModel.uiState.value)
+    assertEquals(defaultEntities.size,viewModel.survey.value.size)
+
     collectJob.cancel()
   }
 
   @Test
-  fun `test get survey failed`() = runTest {
+  fun `test get cache survey - empty case`() = runTest {
+    val spyRepository = spyk(surveyRepository)
+    viewModel = HomeViewModel(spyRepository)
     val collectJob = launch(UnconfinedTestDispatcher()) {
+      viewModel.survey.collect()
       viewModel.uiState.collect()
     }
 
-    surveyRepository.sendSurvey(Either.Left(ErrorResponse(listOf())))
+    spyRepository.sendSurveyEntity(emptyList())
 
-    Assert.assertEquals(true, viewModel.uiState.value is HomeUiState.Error)
+    coVerify {
+      spyRepository.getRemoteSurveys()
+    }
+
     collectJob.cancel()
   }
 }

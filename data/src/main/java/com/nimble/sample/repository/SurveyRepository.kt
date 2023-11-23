@@ -28,14 +28,15 @@ class DefaultSurveyRepository @Inject constructor(
   }
 
   override suspend fun getRemoteSurveys(): Either<ErrorResponse, Unit> {
+    val cachedSurveys = getCachedSurveys().first()
     return surveyApi.getSurveyList().fold({
-      if (getCachedSurveys().first().isEmpty()) {
+      if (cachedSurveys.isEmpty()) {
         Either.Left(it)
       } else {
         Either.Right(Unit)
       }
     }, { res ->
-      if (res.data.isEmpty()) {
+      if (res.data.isEmpty() && cachedSurveys.isEmpty()) {
         Either.Left(ErrorResponse(listOf(ErrorDetail(detail = "Empty survey list"))))
       } else {
         surveyDao.insertOrReplaceSurveys(res.data.map { it.attributes.asEntity() })

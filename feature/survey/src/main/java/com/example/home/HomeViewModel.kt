@@ -1,5 +1,6 @@
 package com.example.home
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nimble.sample.database.entity.asExternalModel
@@ -42,8 +43,9 @@ class HomeViewModel @Inject constructor(
       initialValue = emptyList(),
     )
 
-  private fun refreshSurveys() {
-    HomeUiState.Loading
+  @VisibleForTesting
+  fun refreshSurveys() {
+    _uiState.value = HomeUiState.Loading
     viewModelScope.launch {
       surveyRepository.getRemoteSurveys().fold({
         _uiState.value = HomeUiState.Error(it.errors.firstOrNull()?.detail)
