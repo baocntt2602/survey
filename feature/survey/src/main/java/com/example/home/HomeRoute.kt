@@ -33,7 +33,8 @@ import coil.compose.AsyncImage
 import com.example.extension.toDateFormat
 import com.example.extension.toPassedDays
 import com.example.survey.R
-import com.nimble.sample.model.response.SurveyOverview
+import com.nimble.sample.model.response.SurveyAttributes
+import com.nimble.ui.component.ErrorDialog
 import com.nimble.ui.util.shimmerBrush
 
 @Composable
@@ -41,8 +42,11 @@ fun HomeRoute(
   modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()
 ) {
   val uiState: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
+  val surveys by viewModel.survey.collectAsStateWithLifecycle()
+
   HomeScreen(
     uiState,
+    surveys,
     modifier = modifier
   )
 }
@@ -51,6 +55,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
   uiState: HomeUiState,
+  surveys: List<SurveyAttributes>,
   modifier: Modifier
 ) {
   Surface(
@@ -61,7 +66,7 @@ fun HomeScreen(
       mutableStateOf(true)
     }
 
-    var currentSurvey: SurveyOverview? by remember {
+    var currentSurvey: SurveyAttributes? by remember {
       mutableStateOf(null)
     }
 
@@ -84,13 +89,13 @@ fun HomeScreen(
         is HomeUiState.SurveyLoaded -> {
           showShimmer = false
           val pagerState = rememberPagerState(pageCount = {
-            uiState.surveys.size
+            surveys.size
           })
-          currentSurvey = uiState.surveys[pagerState.currentPage]
+          currentSurvey = surveys[pagerState.currentPage]
 
           SurveyPagerView(
             pagerState = pagerState,
-            surveys = uiState.surveys,
+            surveys = surveys,
             modifier = modifier
               .constrainAs(pager) {}
               .fillMaxSize()
@@ -105,11 +110,15 @@ fun HomeScreen(
           )
         }
 
+        is HomeUiState.Error -> {
+          ErrorDialog(message = uiState.message)
+        }
+
         else -> {}
       }
 
       Text(
-        text = currentSurvey?.attributes?.toDateFormat().orEmpty(),
+        text = currentSurvey?.toDateFormat().orEmpty(),
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier
           .statusBarsPadding()
@@ -122,7 +131,7 @@ fun HomeScreen(
       )
 
       Text(
-        text = currentSurvey?.attributes?.toPassedDays().orEmpty(),
+        text = currentSurvey?.toPassedDays().orEmpty(),
         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W700),
         modifier = Modifier
           .fillMaxWidth(0.5f)
@@ -148,7 +157,7 @@ fun HomeScreen(
       )
 
       Text(
-        text = currentSurvey?.attributes?.title.orEmpty(),
+        text = currentSurvey?.title.orEmpty(),
         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.W700),
         modifier = Modifier
           .shimmerBrush(showShimmer)
@@ -161,7 +170,7 @@ fun HomeScreen(
       )
 
       Text(
-        text = currentSurvey?.attributes?.description.orEmpty(),
+        text = currentSurvey?.description.orEmpty(),
         style = MaterialTheme.typography.bodyMedium,
         modifier = Modifier
           .navigationBarsPadding()

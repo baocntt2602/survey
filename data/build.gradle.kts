@@ -1,6 +1,7 @@
 plugins {
   id("nimble.android.library")
   id("nimble.android.hilt")
+  id("nimble.android.room")
 }
 
 android {

@@ -36,7 +36,6 @@ fun SurveyAttributes.toPassedDays(): String {
   }
 }
 
-
 fun String.toLocalDate(): LocalDate {
   val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'")
   return LocalDate.parse(this, formatter)
