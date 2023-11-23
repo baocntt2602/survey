@@ -19,14 +19,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.extension.hqCoverUrl
-import com.nimble.sample.model.response.SurveyOverview
+import com.nimble.sample.model.response.SurveyAttributes
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SurveyPagerView(
   modifier: Modifier = Modifier,
   pagerState: PagerState,
-  surveys: List<SurveyOverview>
+  surveys: List<SurveyAttributes>
 ) {
   HorizontalPager(
     state = pagerState,
@@ -34,7 +34,7 @@ fun SurveyPagerView(
   ) { page ->
     Box {
       AsyncImage(
-        model = surveys[page].attributes.hqCoverUrl,
+        model = surveys[page].hqCoverUrl,
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier.fillMaxSize()
