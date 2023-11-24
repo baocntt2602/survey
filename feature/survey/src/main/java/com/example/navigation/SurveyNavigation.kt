@@ -17,13 +17,17 @@ fun NavController.navigateToHome() {
   }
 }
 
-fun NavGraphBuilder.surveyNavigation() {
+fun NavGraphBuilder.surveyGraph(
+  onDetailClick: (String) -> Unit,
+  nestedGraphs: NavGraphBuilder.() -> Unit
+) {
   navigation(
     route = SURVEY_GRAPH_ROUTE_PATTERN,
     startDestination = homeRoute
   ) {
     animatedComposable(route = homeRoute) {
-      HomeRoute()
+      HomeRoute(onDetailClick)
     }
+    nestedGraphs()
   }
 }

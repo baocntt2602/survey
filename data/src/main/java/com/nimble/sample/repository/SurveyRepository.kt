@@ -16,6 +16,8 @@ interface SurveyRepository {
   fun getCachedSurveys(): Flow<List<SurveyEntity>>
 
   suspend fun getRemoteSurveys(): Either<ErrorResponse, Unit>
+
+  fun getSurveyByTitle(title: String): Flow<SurveyEntity>
 }
 
 class DefaultSurveyRepository @Inject constructor(
@@ -43,5 +45,9 @@ class DefaultSurveyRepository @Inject constructor(
         Either.Right(Unit)
       }
     })
+  }
+
+  override fun getSurveyByTitle(title: String): Flow<SurveyEntity> {
+    return surveyDao.getTopicEntity(title)
   }
 }

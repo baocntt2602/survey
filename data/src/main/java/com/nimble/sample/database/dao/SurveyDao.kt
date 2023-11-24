@@ -15,6 +15,14 @@ interface SurveyDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertOrReplaceSurveys(surveyEntity: List<SurveyEntity>)
 
+  @Query(
+    value = """
+        SELECT * FROM survey
+        WHERE title = :surveyTitle
+    """,
+  )
+  fun getTopicEntity(surveyTitle: String): Flow<SurveyEntity>
+
   @Query(value = "DELETE FROM survey")
   fun clearAllSurveys()
 }
