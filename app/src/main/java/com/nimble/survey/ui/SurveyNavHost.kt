@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.detail.detailScreen
+import com.example.detail.navigateToSurveyDetail
 import com.example.navigation.navigateToHome
-import com.example.navigation.surveyNavigation
+import com.example.navigation.surveyGraph
 import com.example.onboard.navigation.onboardingGraph
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -44,10 +46,18 @@ fun SurveyNavHost(
       navController = navController,
       startDestination = startDestination
     ) {
+
       onboardingGraph(
         onLoginSuccessfully = navController::navigateToHome
       )
-      surveyNavigation()
+
+      surveyGraph(
+        navController::navigateToSurveyDetail
+      ) {
+        detailScreen {
+          navController.popBackStack()
+        }
+      }
     }
   }
 }

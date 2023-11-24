@@ -39,6 +39,7 @@ import com.nimble.ui.util.shimmerBrush
 
 @Composable
 fun HomeRoute(
+  onDetailClick: (String) -> Unit,
   modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()
 ) {
   val uiState: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -47,6 +48,7 @@ fun HomeRoute(
   HomeScreen(
     uiState,
     surveys,
+    onDetailClick,
     modifier = modifier
   )
 }
@@ -56,6 +58,7 @@ fun HomeRoute(
 fun HomeScreen(
   uiState: HomeUiState,
   surveys: List<SurveyAttributes>,
+  onDetailClick: (String) -> Unit,
   modifier: Modifier
 ) {
   Surface(
@@ -185,7 +188,9 @@ fun HomeScreen(
 
       if (uiState is HomeUiState.SurveyLoaded) {
         IconButton(onClick = {
-
+          currentSurvey?.title?.let {
+            onDetailClick.invoke(it)
+          }
         }, modifier = Modifier
           .systemBarsPadding()
           .constrainAs(doSurveyBtn) {
