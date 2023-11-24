@@ -183,22 +183,24 @@ fun HomeScreen(
           }
       )
 
-      IconButton(onClick = {
+      if (uiState is HomeUiState.SurveyLoaded) {
+        IconButton(onClick = {
 
-      }, modifier = Modifier
-        .systemBarsPadding()
-        .constrainAs(doSurveyBtn) {
-          end.linkTo(parent.end, 20.dp)
-          bottom.linkTo(surveyDescription.bottom)
-        }) {
-        AsyncImage(
-          model = R.drawable.ic_next,
-          contentDescription = null,
-          modifier = Modifier
-            .background(Color.White, CircleShape)
-            .size(50.dp)
-            .padding(10.dp)
-        )
+        }, modifier = Modifier
+          .systemBarsPadding()
+          .constrainAs(doSurveyBtn) {
+            end.linkTo(parent.end, 20.dp)
+            bottom.linkTo(surveyDescription.bottom)
+          }) {
+          AsyncImage(
+            model = R.drawable.ic_next,
+            contentDescription = null,
+            modifier = Modifier
+              .background(Color.White, CircleShape)
+              .size(50.dp)
+              .padding(10.dp)
+          )
+        }
       }
     }
   }
