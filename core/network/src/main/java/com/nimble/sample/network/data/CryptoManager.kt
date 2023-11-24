@@ -49,7 +49,7 @@ class CryptoManager {
   }
 
   fun encrypt(bytes: ByteArray, outputStream: OutputStream): ByteArray {
-    val encryptedBytes = encryptCipher.doFinal(bytes)
+    val encryptedBytes = encryptCipher.doFinal(encryptCipher.iv + bytes)
     outputStream.use {
       it.write(encryptCipher.iv.size)
       it.write(encryptCipher.iv)
@@ -69,7 +69,13 @@ class CryptoManager {
       val encryptedBytes = ByteArray(encryptedBytesSize)
       it.read(encryptedBytes)
 
-      getDecryptCipherForIv(iv).doFinal(encryptedBytes)
+      val decipheredByteArray = getDecryptCipherForIv(iv)
+        .doFinal(encryptedBytes)
+
+      decipheredByteArray
+        .toList()
+        .subList(ivSize, decipheredByteArray.size)
+        .toByteArray()
     }
   }
 
