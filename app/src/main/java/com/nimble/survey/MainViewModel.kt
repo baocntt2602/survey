@@ -20,7 +20,6 @@ class MainViewModel @Inject constructor(
     userRepository.isAuthenticated()
   }
 
-  // listen to user token data store to handle token expired or user explicitly logout
   val state: StateFlow<MainUiState> = userRepository.userToken()
     .map {
       if (it.accessToken == null) {

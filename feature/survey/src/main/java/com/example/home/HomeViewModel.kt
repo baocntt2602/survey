@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nimble.sample.database.entity.asExternalModel
 import com.nimble.sample.model.response.SurveyAttributes
 import com.nimble.sample.repository.SurveyRepository
+import com.nimble.sample.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-  private val surveyRepository: SurveyRepository
+  private val surveyRepository: SurveyRepository,
+  private val userRepository: UserRepository
 ) : ViewModel() {
 
   private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
@@ -52,6 +54,12 @@ class HomeViewModel @Inject constructor(
       }, {
         _uiState.value = HomeUiState.SurveyLoaded
       })
+    }
+  }
+
+  fun logout() {
+    viewModelScope.launch {
+      userRepository.logout()
     }
   }
 }
