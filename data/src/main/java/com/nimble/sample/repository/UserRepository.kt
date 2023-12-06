@@ -18,6 +18,7 @@ interface UserRepository {
   suspend fun isAuthenticated(): Boolean
   fun login(email: String, password: String): Flow<Either<ErrorResponse, ResponseWrapper<LoginResponse>>>
   fun userToken(): Flow<UserToken>
+  suspend fun logout()
 }
 
 class DefaultUserRepository @Inject constructor(
@@ -41,5 +42,9 @@ class DefaultUserRepository @Inject constructor(
 
   override fun userToken(): Flow<UserToken> {
     return userTokenDataStore.userToken
+  }
+
+  override suspend fun logout() {
+    userTokenDataStore.saveTokens(UserToken(null, null))
   }
 }

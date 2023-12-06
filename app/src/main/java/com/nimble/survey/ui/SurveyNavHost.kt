@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,16 +20,30 @@ import com.example.detail.detailScreen
 import com.example.detail.navigateToSurveyDetail
 import com.example.navigation.navigateToHome
 import com.example.navigation.surveyGraph
+import com.example.onboard.navigation.loginRoute
 import com.example.onboard.navigation.onboardingGraph
+import com.nimble.survey.MainUiState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SurveyNavHost(
   modifier: Modifier = Modifier,
-  startDestination: String
+  startDestination: String,
+  uiState: MainUiState
 ) {
 
   val navController: NavHostController = rememberNavController()
+
+  LaunchedEffect(key1 = uiState, block = {
+    if (uiState is MainUiState.UserLogout) {
+      navController.navigate(loginRoute) {
+        popUpTo(navController.graph.id) {
+          inclusive = true
+        }
+        launchSingleTop = true
+      }
+    }
+  })
 
   Scaffold(
     modifier = modifier.fillMaxSize(),

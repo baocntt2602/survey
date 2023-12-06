@@ -16,13 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.navigation.SURVEY_GRAPH_ROUTE_PATTERN
 import com.example.onboard.navigation.ONBOARDING_GRAPH_ROUTE_PATTERN
 import com.nimble.survey.ui.SurveyNavHost
 import com.nimble.ui.theme.SurveyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,6 +35,14 @@ class MainActivity : ComponentActivity() {
   private val viewModel: MainViewModel by viewModels()
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    var uiState: MainUiState by mutableStateOf(MainUiState.Default)
+
+    lifecycleScope.launch {
+      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.state.onEach { uiState = it }.collect()
+      }
+    }
 
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -62,7 +74,8 @@ class MainActivity : ComponentActivity() {
               SURVEY_GRAPH_ROUTE_PATTERN
             } else {
               ONBOARDING_GRAPH_ROUTE_PATTERN
-            }
+            },
+            uiState = uiState
           )
         }
       }

@@ -2,6 +2,7 @@ package com.example.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -49,6 +50,7 @@ fun HomeRoute(
     uiState,
     surveys,
     onDetailClick,
+    viewModel::logout,
     modifier = modifier
   )
 }
@@ -59,6 +61,7 @@ fun HomeScreen(
   uiState: HomeUiState,
   surveys: List<SurveyAttributes>,
   onDetailClick: (String) -> Unit,
+  onLogoutClick: () -> Unit,
   modifier: Modifier
 ) {
   Surface(
@@ -146,7 +149,7 @@ fun HomeScreen(
       )
 
       AsyncImage(
-        model = "",
+        model = if (!showShimmer) R.drawable.img_default_avatar else null,
         contentDescription = null,
         modifier = Modifier
           .clip(CircleShape)
@@ -156,6 +159,9 @@ fun HomeScreen(
             end.linkTo(parent.end, 20.dp)
             top.linkTo(date.top)
             bottom.linkTo(datePassed.bottom)
+          }
+          .clickable {
+            onLogoutClick.invoke()
           }
       )
 
