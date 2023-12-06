@@ -15,6 +15,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
       }
       extensions.configure<LibraryExtension> {
         defaultConfig {
+          testInstrumentationRunner = "com.example.testing.SurveyTestRunner"
           buildFeatures {
             buildConfig = true
           }
@@ -30,6 +31,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
         add("testImplementation", kotlin("test"))
         add("androidTestImplementation", kotlin("test"))
+        add("androidTestImplementation", project(":core:testing"))
         add("testImplementation", project(":core:testing"))
         add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
         add("implementation", libs.findLibrary("lifecycle.runtime.compose").get())

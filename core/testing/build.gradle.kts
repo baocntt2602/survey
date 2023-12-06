@@ -20,6 +20,11 @@ dependencies {
   api(libs.androidx.test.rules)
   api(libs.androidx.test.runner)
   api(libs.mockk)
+  api(libs.androidx.compose.ui.test)
+  api(libs.espresso.core)
+  api(libs.hilt.android.testing)
+
+  debugApi(libs.androidx.compose.ui.testManifest)
 
   implementation(libs.arrow.core)
 
@@ -28,5 +33,4 @@ dependencies {
   implementation(libs.material)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)
-  androidTestImplementation(libs.espresso.core)
 }

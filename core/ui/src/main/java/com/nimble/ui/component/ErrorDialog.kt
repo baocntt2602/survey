@@ -15,6 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.nimble.sample.ui.R
@@ -33,7 +35,12 @@ fun ErrorDialog(
     if (dialogVisible) {
       AlertDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
+        modifier = Modifier
+          .widthIn(max = configuration.screenWidthDp.dp - 80.dp)
+          .semantics {
+            contentDescription = message.orEmpty()
+          }
+        ,
         onDismissRequest = {},
         text = {
           Text(
