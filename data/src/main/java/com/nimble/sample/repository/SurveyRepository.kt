@@ -1,12 +1,18 @@
 package com.nimble.sample.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import arrow.core.Either
 import com.nimble.sample.database.dao.SurveyDao
 import com.nimble.sample.database.entity.SurveyEntity
 import com.nimble.sample.mapper.asEntity
+import com.nimble.sample.model.response.SurveyOverview
 import com.nimble.sample.network.api.SurveyApi
 import com.nimble.sample.network.either.ErrorDetail
 import com.nimble.sample.network.either.ErrorResponse
+import com.nimble.sample.pagingsource.SurveyPagingSource
+import com.nimble.sample.repository.SurveyRepository.Companion.SURVEY_PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -18,6 +24,12 @@ interface SurveyRepository {
   suspend fun getRemoteSurveys(): Either<ErrorResponse, Unit>
 
   fun getSurveyByTitle(title: String): Flow<SurveyEntity>
+
+  fun getSurveyPageData(): Flow<PagingData<SurveyOverview>>
+
+  companion object {
+    const val SURVEY_PAGE_SIZE = 5
+  }
 }
 
 class DefaultSurveyRepository @Inject constructor(
@@ -49,5 +61,16 @@ class DefaultSurveyRepository @Inject constructor(
 
   override fun getSurveyByTitle(title: String): Flow<SurveyEntity> {
     return surveyDao.getTopicEntity(title)
+  }
+
+  override fun getSurveyPageData(): Flow<PagingData<SurveyOverview>> {
+    return Pager(
+      config = PagingConfig(
+        pageSize = SURVEY_PAGE_SIZE
+      ),
+      pagingSourceFactory = {
+        SurveyPagingSource(surveyApi)
+      }
+    ).flow
   }
 }
