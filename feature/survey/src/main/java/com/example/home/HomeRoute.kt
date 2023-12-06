@@ -36,7 +36,6 @@ import com.example.extension.toPassedDays
 import com.example.survey.R
 import com.nimble.sample.model.response.SurveyAttributes
 import com.nimble.ui.component.ErrorDialog
-import com.nimble.ui.util.shimmerBrush
 
 @Composable
 fun HomeRoute(
@@ -68,10 +67,6 @@ fun HomeScreen(
     modifier = modifier.fillMaxSize()
   ) {
 
-    var showShimmer by remember {
-      mutableStateOf(true)
-    }
-
     var currentSurvey: SurveyAttributes? by remember {
       mutableStateOf(null)
     }
@@ -92,8 +87,12 @@ fun HomeScreen(
       ) = createRefs()
 
       when (uiState) {
+
+        is HomeUiState.Loading -> {
+          HomeShimmerView(modifier.fillMaxSize())
+        }
+
         is HomeUiState.SurveyLoaded -> {
-          showShimmer = false
           val pagerState = rememberPagerState(pageCount = {
             surveys.size
           })
@@ -114,50 +113,38 @@ fun HomeScreen(
             },
             pagerState = pagerState
           )
-        }
 
-        is HomeUiState.Error -> {
-          ErrorDialog(message = uiState.message)
-        }
+          Text(
+            text = currentSurvey?.toDateFormat().orEmpty(),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+              .statusBarsPadding()
+              .fillMaxWidth(0.5f)
+              .constrainAs(date) {
+                start.linkTo(parent.start, 20.dp)
+                top.linkTo(parent.top, 10.dp)
+              }
+          )
 
-        else -> {}
-      }
-
-      Text(
-        text = currentSurvey?.toDateFormat().orEmpty(),
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier
-          .statusBarsPadding()
-          .fillMaxWidth(0.5f)
-          .shimmerBrush(showShimmer)
-          .constrainAs(date) {
-            start.linkTo(parent.start, 20.dp)
-            top.linkTo(parent.top, 10.dp)
-          }
-      )
-
-      Text(
-        text = currentSurvey?.toPassedDays().orEmpty(),
-        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W700),
-        modifier = Modifier
-          .fillMaxWidth(0.5f)
-          .shimmerBrush(showShimmer)
-          .constrainAs(datePassed) {
-            start.linkTo(date.start)
-            top.linkTo(date.bottom, 5.dp)
-          }
-      )
+          Text(
+            text = currentSurvey?.toPassedDays().orEmpty(),
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W700),
+            modifier = Modifier
+              .fillMaxWidth(0.5f)
+              .constrainAs(datePassed) {
+                start.linkTo(date.start)
+                top.linkTo(date.bottom, 5.dp)
+              }
+          )
 
       AsyncImage(
-        model = if (!showShimmer) R.drawable.img_default_avatar else null,
+        model = R.drawable.img_default_avatar,
         contentDescription = null,
         modifier = Modifier
           .clip(CircleShape)
           .size(36.dp)
-          .shimmerBrush(showShimmer)
           .constrainAs(avatar) {
             end.linkTo(parent.end, 20.dp)
-            top.linkTo(date.top)
             bottom.linkTo(datePassed.bottom)
           }
           .clickable {
@@ -165,52 +152,54 @@ fun HomeScreen(
           }
       )
 
-      Text(
-        text = currentSurvey?.title.orEmpty(),
-        style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.W700),
-        modifier = Modifier
-          .shimmerBrush(showShimmer)
-          .constrainAs(surveyTitle) {
-            start.linkTo(surveyDescription.start)
-            bottom.linkTo(surveyDescription.top, 5.dp)
-            end.linkTo(doSurveyBtn.start, 20.dp)
-            width = Dimension.fillToConstraints
-          }
-      )
-
-      Text(
-        text = currentSurvey?.description.orEmpty(),
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier
-          .navigationBarsPadding()
-          .shimmerBrush(showShimmer)
-          .constrainAs(surveyDescription) {
-            bottom.linkTo(parent.bottom, 20.dp)
-            start.linkTo(date.start)
-            end.linkTo(doSurveyBtn.start, 20.dp)
-            width = Dimension.fillToConstraints
-          }
-      )
-
-      if (uiState is HomeUiState.SurveyLoaded) {
-        IconButton(onClick = {
-          currentSurvey?.title?.let {
-            onDetailClick.invoke(it)
-          }
-        }, modifier = Modifier
-          .systemBarsPadding()
-          .constrainAs(doSurveyBtn) {
-            end.linkTo(parent.end, 20.dp)
-            bottom.linkTo(surveyDescription.bottom)
-          }) {
-          AsyncImage(
-            model = R.drawable.ic_next,
-            contentDescription = null,
+          Text(
+            text = currentSurvey?.title.orEmpty(),
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.W700),
             modifier = Modifier
-              .background(Color.White, CircleShape)
-              .size(50.dp)
-              .padding(10.dp)
+              .constrainAs(surveyTitle) {
+                start.linkTo(surveyDescription.start)
+                bottom.linkTo(surveyDescription.top, 5.dp)
+                end.linkTo(doSurveyBtn.start, 20.dp)
+                width = Dimension.fillToConstraints
+              }
           )
+
+          Text(
+            text = currentSurvey?.description.orEmpty(),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+              .navigationBarsPadding()
+              .constrainAs(surveyDescription) {
+                bottom.linkTo(parent.bottom, 20.dp)
+                start.linkTo(date.start)
+                end.linkTo(doSurveyBtn.start, 20.dp)
+                width = Dimension.fillToConstraints
+              }
+          )
+
+          IconButton(onClick = {
+            currentSurvey?.title?.let {
+              onDetailClick.invoke(it)
+            }
+          }, modifier = Modifier
+            .systemBarsPadding()
+            .constrainAs(doSurveyBtn) {
+              end.linkTo(parent.end, 20.dp)
+              bottom.linkTo(surveyDescription.bottom)
+            }) {
+            AsyncImage(
+              model = R.drawable.ic_next,
+              contentDescription = null,
+              modifier = Modifier
+                .background(Color.White, CircleShape)
+                .size(50.dp)
+                .padding(10.dp)
+            )
+          }
+        }
+
+        is HomeUiState.Error -> {
+          ErrorDialog(message = uiState.message)
         }
       }
     }
