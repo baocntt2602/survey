@@ -38,6 +38,7 @@ androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.1"
 mockk="1.12.4"
 room = "2.6.0"
+pagingCompose = "3.2.1"
 
 [libraries]
 androidx-acitivty-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
@@ -95,6 +96,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingCompose" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }

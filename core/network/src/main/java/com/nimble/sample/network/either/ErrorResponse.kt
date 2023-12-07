@@ -21,6 +21,9 @@ data class ErrorResponse(
   val errors: List<ErrorDetail>
 ) {
 
+  val prettyMessage: String
+    get() = errors.joinToString("-") { it.detail.orEmpty() }
+
   internal companion object {
 
     private val JACKSON = ObjectMapper().apply {

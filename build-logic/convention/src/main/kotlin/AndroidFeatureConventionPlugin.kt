@@ -41,6 +41,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         add("implementation", libs.findLibrary("arrow.core").get())
         add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
         add("implementation", libs.findLibrary("navigation").get())
+        add("implementation", libs.findLibrary("paging.runtime").get())
+        add("implementation", libs.findLibrary("paging.compose").get())
       }
     }
   }
